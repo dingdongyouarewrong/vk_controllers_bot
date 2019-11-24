@@ -104,5 +104,9 @@ def get_category_dataset(data):
     print("remap ends")
 
     data.dropna(inplace=True)
+    data["text"] = data.text.map(lambda s: "университет" if s=="скорина" else s)
+    data["text"] = data.text.map(lambda s: "университет" if s=="ггу" else s)
+    data["text"] = data.text.map(lambda s: "площадь ленина" if s=="площадь" else s)
+    data["text"] = data.text.map(lambda s: "площадь ленина" if s=="ленина" else s)
 
     return data

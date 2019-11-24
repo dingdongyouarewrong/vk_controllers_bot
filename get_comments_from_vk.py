@@ -50,11 +50,6 @@ def getDataFromComments(vk, groupID):
 
     # print(data[:10])
     # print(data.info())
-    data["text"] = data.text.map(lambda s: "университет" if s=="скорина" else s)
-    data["text"] = data.text.map(lambda s: "университет" if s=="ггу" else s)
-    data["text"] = data.text.map(lambda s: "площадь ленина" if s=="площадь" else s)
-    data["text"] = data.text.map(lambda s: "площадь ленина" if s=="ленина" else s)
 
-    # data.to_csv("commentary_dataset.csv", encoding="windows-1251")
     print("dataset is ready")
     return data
