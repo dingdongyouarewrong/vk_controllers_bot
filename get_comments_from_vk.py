@@ -1,6 +1,5 @@
 import re
 import time
-import pandas
 import pandas as pd
 
 import lp
@@ -14,25 +13,19 @@ def auth():
     vk = vk_session.get_api()
     return vk
 
-def getDataFromComments(vk):
-    #id группы из которой берем пост
-    groupID = "-96717639"#-96717639
+def getDataFromComments(vk, groupID):
 
     #получаем последний пост в группе
     posts = vk.wall.get(owner_id=groupID, offset=1, count=68)
     print("\n")
     data = pd.DataFrame(columns=['text', 'post_id', "date", "day_in_week", "hour","minute", "day_in_month"])
 
-    # print(posts)
-    # print(posts[0])
     for post in posts.get("items"):
         #получаем id последнего поста в группе
         postID = post.get("id")
 
-        # print("post id is "+str(postID))
         if "Всем удачного дня, платите за проезд и не попадайтесь контролю" not in post.get("text"):
             continue
-        # print("text is "+str(post.get("text")))
 
         #получаем объект commentary чтобы из него вытащить число комментариев
         comments = vk.wall.getComments(owner_id=groupID, post_id=postID, count=200)
@@ -42,9 +35,7 @@ def getDataFromComments(vk):
 
             text = comment.get("text")
             text = re.sub(r"A-Za-zА-Яа-я0123456789 ", "", str(text))
-            # print(text)
             commentaryIsNice = check_correctness.detection(text)
-            # print(commentaryIsNice)
             if commentaryIsNice:
                 print(text)
                 date = comment.get("date")

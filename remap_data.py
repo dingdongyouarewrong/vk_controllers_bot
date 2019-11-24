@@ -1,5 +1,4 @@
 # -*- coding: windows-1251 -*-
-import re
 
 import numpy as np
 
@@ -48,12 +47,13 @@ stops = ['универсам', 'луговая', 'рембыттехника', 'ленинградская', 'ярославская'
          'куйбышевский', 'фестивальный', 'гараж кооп 27', 'сейсмотехника', 'мильча', 'туббольница',
          'пту179', 'химизделий', 'пожарная часть', 'госпиталь', 'автобусный парк',
          'газетный комплекс', 'победы', 'клёнковский', 'алмазная', 'мотороремонтный', 'мкр 19']
-import pandas as pd
 # import pymorphy2
 from fuzzywuzzy import process
 
 
 def clear_commentary(text):
+    """удаляем вторую часть комментария -
+   направление на котором стоят контролёры"""
     index = 0
     splitted = text.split(" ")
     for i, s in enumerate(splitted):
@@ -78,8 +78,6 @@ def clear_commentary(text):
 
 
 def clean_data(data):
-    """удаляем вторую часть комментария -
-    направление на котором стоят контролёры"""
     data.dropna(inplace=True)
     data["text"] = data["text"].map(lambda s: clear_commentary(s))
     data.dropna(inplace=True)
