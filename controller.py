@@ -20,16 +20,16 @@ def start_service():
     # замените логин и пароль на свой для аутентификации и доступа к закрытым группам
     auth = get_comments_from_vk.auth()
 
-    # ïîëó÷àåì êîììåíòàðèè è ñîçðàíÿåì èõ â commentary_dataset.csv
+    # получаем комментарии и созраняем их в commentary_dataset.csv
     data = get_comments_from_vk.getDataFromComments(auth, groupID)
 
-    # ñòîÿò íà óíèâåðñèòåòå â ñòîðîíó óíèâåðìàãà -> ñòîÿò íà óíèâåðñèòåòå
+    # стоят на университете в сторону универмага -> стоят на университете
     data = remap_data.clean_data(data)
 
-    # ñòîÿò íà óíèâåðñèòåòå -> óíèâåðñèòåò
+    # стоят на университете -> университет
     data = remap_data.get_category_dataset(data)
 
-    # ñîõðàíÿåì äàííûå
+    # сохраняем данные
     data.to_csv(DATASET_NAME, encoding="windows-1251")
 
     vk_messages_bot.start_bot(data, token=TOKEN, long_poll_group_id=long_poll_group_id)
