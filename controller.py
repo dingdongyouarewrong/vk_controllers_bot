@@ -20,7 +20,7 @@ def start_service():
     # замените логин и пароль на свой для аутентификации и доступа к закрытым группам
     auth = get_comments_from_vk.auth()
 
-    # получаем комментарии и созраняем их в commentary_dataset.csv
+    # получаем комментарии
     data = get_comments_from_vk.getDataFromComments(auth, groupID)
 
     # стоят на университете в сторону универмага -> стоят на университете
