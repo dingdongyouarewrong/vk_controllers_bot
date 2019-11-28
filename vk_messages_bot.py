@@ -15,7 +15,7 @@ def start_bot(data, token):
     longPoll = vk.groups.getLongPollServer(group_id=183524419)
     server, key, ts = longPoll['server'], longPoll['key'], longPoll['ts']
     while True:
-        # Последующие запросы: меняется только ts
+        # РџРѕСЃР»РµРґСѓСЋС‰РёРµ Р·Р°РїСЂРѕСЃС‹: РјРµРЅСЏРµС‚СЃСЏ С‚РѕР»СЊРєРѕ ts
         longPoll = post('%s' % server, data={'act': 'a_check',
                                              'key': key,
                                              'ts': ts,
@@ -23,26 +23,26 @@ def start_bot(data, token):
         if longPoll['updates'] and len(longPoll['updates']) != 0:
             for update in longPoll['updates']:
                 if update['type'] == 'message_new':
-                    # Помечаем сообщение от этого пользователя как прочитанное
+                    # РџРѕРјРµС‡Р°РµРј СЃРѕРѕР±С‰РµРЅРёРµ РѕС‚ СЌС‚РѕРіРѕ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ РєР°Рє РїСЂРѕС‡РёС‚Р°РЅРЅРѕРµ
                     vk.messages.markAsRead(peer_id=update['object']['user_id'])
                     user = update['object']["user_id"]
                     text = get_stops_by_time(data)
 
                     if text is None or text == {}:
-                        message = "нет записей"
+                        message = "Г­ГҐГІ Г§Г ГЇГЁГ±ГҐГ©"
                         vk.messages.send(user_id=user, random_id=randint(-2147483648, 2147483647),
                                          message=message)
                         print(message)
                         ts = longPoll['ts']
                         continue
 
-                    message = "чем больше вероятность - тем больше шанс встретить контролёра\n" \
-                              "\nостановка вероятность\n"
+                    message = "С‡РµРј Р±РѕР»СЊС€Рµ С‡Р°СЃС‚РѕС‚Р° - С‚РµРј Р±РѕР»СЊС€Рµ С€Р°РЅСЃ РІСЃС‚СЂРµС‚РёС‚СЊ РєРѕРЅС‚СЂРѕР»С‘СЂР°\n" \
+                              "\nРѕСЃС‚Р°РЅРѕРІРєР° С‡Р°СЃС‚РѕС‚Р°\n"
                     for i in text.items():
                         message += i[0] + "  "
                         message += str(i[1])
                         message += "\n"
-
+                    # РћС‚РїСЂР°РІР»СЏРµРј С„РѕСЂРјР°С‚РёСЂРѕРІР°РЅРѕРµ СЃРѕРѕР±С‰РµРЅРёРµ                  
                     vk.messages.send(user_id=user, random_id=randint(-2147483648, 2147483647),
                                      message=message)
                     ts = longPoll['ts']
