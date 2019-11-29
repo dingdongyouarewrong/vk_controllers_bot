@@ -15,7 +15,7 @@ def auth():
 
 def getDataFromComments(vk, groupID):
 
-    #получаем последний пост в группе
+    #получаем массив постов в группе
     posts = vk.wall.get(owner_id=groupID, offset=1, count=90)
     print("\n")
     data = pd.DataFrame(columns=['text', 'post_id', "date", "day_in_week", "hour","minute", "day_in_month"])
